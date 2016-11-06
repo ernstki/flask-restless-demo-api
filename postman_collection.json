@@ -1,0 +1,53 @@
+{
+	"id": "ed94fe64-e51f-46ba-74af-f69cba5e658e",
+	"name": "Bioreactor API",
+	"description": "Change port 55001 to 5000 if you're testing locally (not running the Flask app from the Bioreactor VM)",
+	"order": [
+		"d20d3441-d6a9-3a84-1441-c0897a13ec4c",
+		"6dcfd7f9-6c99-f222-a0b5-c79235cdc985"
+	],
+	"folders": [],
+	"timestamp": 1477866176049,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "6dcfd7f9-6c99-f222-a0b5-c79235cdc985",
+			"headers": "",
+			"url": "localhost:55001/api/v1/organism/search?q=ar",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1477868179926,
+			"name": "Search the API by organism",
+			"description": "",
+			"collectionId": "ed94fe64-e51f-46ba-74af-f69cba5e658e",
+			"responses": []
+		},
+		{
+			"id": "d20d3441-d6a9-3a84-1441-c0897a13ec4c",
+			"headers": "",
+			"url": "localhost:55001/api/v1/help",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1477868173056,
+			"name": "API help page",
+			"description": "",
+			"collectionId": "ed94fe64-e51f-46ba-74af-f69cba5e658e",
+			"responses": []
+		}
+	]
+}
