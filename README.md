@@ -43,6 +43,15 @@
 
 ## Other tips
 
+
+### Testing the API with [Postman][]
+
+You can use [Postman][] to test requests to the API. The included
+`postman_collection.json` may be imported through the Postman user interface,
+and includes two example queries.
+
+### Using MySQL instead of SQLite
+
 Out of the box, this Flask app is set up to use a SQLite3 database in the
 named `organism.db` in the current working directory, but with slight
 modifications, you can use a MySQL database instead. (Check out the comments
@@ -57,3 +66,4 @@ sqlite3 organism.db < organism_table_sqlite3.sql
 ```
 
 [autoenv]: https://github.com/kennethreitz/autoenv
+[postman]: https://www.getpostman.com/apps

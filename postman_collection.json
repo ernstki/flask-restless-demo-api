@@ -1,7 +1,7 @@
 {
 	"id": "ed94fe64-e51f-46ba-74af-f69cba5e658e",
-	"name": "Bioreactor API",
-	"description": "Change port 55001 to 5000 if you're testing locally (not running the Flask app from the Bioreactor VM)",
+	"name": "Flask-Restless demo API",
+	"description": "Change the port from 5000 to whatever you invoked 'flask run' with",
 	"order": [
 		"d20d3441-d6a9-3a84-1441-c0897a13ec4c",
 		"6dcfd7f9-6c99-f222-a0b5-c79235cdc985"
@@ -14,7 +14,7 @@
 		{
 			"id": "6dcfd7f9-6c99-f222-a0b5-c79235cdc985",
 			"headers": "",
-			"url": "localhost:55001/api/v1/organism/search?q=ar",
+			"url": "localhost:5000/api/v1/organism/search?q=ar",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "GET",
@@ -33,7 +33,7 @@
 		{
 			"id": "d20d3441-d6a9-3a84-1441-c0897a13ec4c",
 			"headers": "",
-			"url": "localhost:55001/api/v1/help",
+			"url": "localhost:5000/api/v1/help",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "GET",
