@@ -19,13 +19,18 @@
 ##      using .query.filter() with a SQL LIKE condition.
 ##
 ###########################################################################
+import os
 import sys
 import re
+
+import click
 from flask import Flask, jsonify, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import flask_restless
-import click
+
+basedir = os.path.dirname(__file__)
+parentdir = os.path.dirname(__file__) + os.sep  + '..'
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -54,7 +59,7 @@ manager.create_api(Organism, methods=['GET'], #, 'POST', 'DELETE'],
 
 @app.route('/')
 @app.route('/api')
-@app.route(app.config['URL_PREFIX'])
+@app.route(app.config['URL_PREFIX'])  # prob. smarter to use Flask blueprint
 def index():
     """Redirect casual users to the API help page"""
     return redirect(url_for('help'))
@@ -95,7 +100,7 @@ def initdb():
     db.drop_all()
     db.create_all()
 
-    with open('organism_table.csv', 'r') as organisms:
+    with open(parentdir + os.sep + 'organism_table.csv', 'r') as organisms:
         for orgname in organisms.readlines():
             db.engine.execute("INSERT INTO organism (name) VALUES('{}')"
                               .format(orgname.replace('\n', '')))
@@ -103,11 +108,14 @@ def initdb():
     click.secho('done\n', fg='green')
 
 if __name__ == '__main__':
-    # I find it kind of moronic that this doesn't actually use the *host* part
-    # of SERVER_NAME for, well, the 'host' parameter. As mentioned in the
-    # docs[1], it *does* pay attention to the *port* part, sort of, but having
-    # SERVER_NAME also set at the same time seems to mess things up.
-    #
-    # [1] http://flask.pocoo.org/docs/0.11/api/#flask.Flask.run
-    app.run(host=app.config['SERVER_HOST'], port=app.config['SERVER_PORT'])
+    # You could specify host= and port= params here, but they won't be used if
+    # you invoke the app in the usualy way with 'flask run'
+    # Ref: http://flask.pocoo.org/docs/0.11/api/#flask.Flask.run
+    #app.run()
+
+    click.secho('\nPlease launch the demo API with\n', err=True)
+    click.secho('    export FLASK_APP=demoapi/demoapi.py', bold=True,
+                err=True)
+    click.secho('    flask run [--host=X.X.X.X] [--port=YYYY]\n', bold=True,
+                err=True)
 

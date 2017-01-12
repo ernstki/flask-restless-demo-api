@@ -1,17 +1,20 @@
 # Example Flask + Flask-Restless API
 
+## Requirements
+
+* Python 2.7.x or 3.5.x (later is probably OK)
+* virtualenv
+
 ## Installation
 
-1. Clone this repository and [activate the virtual environment][venv].
+1. Clone this repository and generate a fresh virtual environment:
 
     ```
-    git clone git@github.uc.edu:Bioreactor/bioreactor-demo-api.git
+    git clone git@github.uc.edu:ernstki/flask-restless-demo-api.git
     virtualenv venv && source venv/bin/activate
     ```
 
-2. Install necessary Python packages (may not be necessary if you're using
-   this repo as a template for a child service within the main [Bioreactor
-   project][bioreactor])
+2. Install necessary Python packages using `pip`:
 
     ```
     pip install -r requirements.txt
@@ -21,24 +24,21 @@
    launch the Flask web application:
 
     ```
-    export FLASK_APP=demoapi.py
+    export FLASK_APP=demoapi/demoapi.py
     flask initdb
-    flask run
+    flask run  # defaults to http://127.0.0.1:5000
     ```
 
     If you install [autoenv], you don't have to set `FLASK_APP`, it's done for
     you automatically when you enter the directory.
 
-    If you're running the Flask application on the [Bioreactor VM][vm], then
-    you'll want to be sure that the app runs on 0.0.0.0:5001, so that the
-    VirtualBox port forwarding works correctly. You can lauch the app in either
-    of these two ways to achieve that:
+    If you're running the Flask application within a VirtualBox VM, you'll want
+    to be sure that the app runs on 0.0.0.0, so that the VirtualBox port
+    forwarding works correctly. You can launch the app with command line flags
+    to achieve that:
 
     ```
-    # either
-    flask run --host=0.0.0.0 --port=5001
-    # or
-    python demoapi.py
+    flask run --host=0.0.0.0  # optionally: --port=5000
     ```
 
 ## Other tips
@@ -56,7 +56,4 @@ the default values. Here's a sample invocation for SQLite:
 sqlite3 organism.db < organism_table_sqlite3.sql
 ```
 
-[bioreactor]: https://github.uc.edu/Bioreactor/bioreactor
-[vm]: https://github.uc.edu/Bioreactor/bioreactor-vm
-[venv]: ../README.md#establishing-a-python-virtual-environment
 [autoenv]: https://github.com/kennethreitz/autoenv

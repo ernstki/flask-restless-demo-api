@@ -1,7 +1,4 @@
 DEBUG       = True
-SERVER_HOST = '0.0.0.0'
-SERVER_PORT = 5001
-# SERVER_NAME <-- setting this messes everything up, but Flask won't say why
 URL_PREFIX  = '/api/v1'
 
 #SQLALCHEMY_ECHO                = True
