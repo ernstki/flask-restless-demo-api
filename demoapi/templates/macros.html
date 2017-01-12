@@ -1,0 +1,30 @@
+{#- Source: https://realpython.com/blog/python/primer-on-jinja-templating/ -#}
+
+{%- macro nav_link(endpoint, name) -%}
+{% if request.endpoint.endswith(endpoint) -%}
+<li class="active"><a href="{{ url_for(endpoint) }}">{{name}}</a></li>
+{% else -%}
+<li><a href="{{ url_for(endpoint) }}">{{name}}</a></li>
+{%- endif -%}
+{%- endmacro -%}
+
+{% macro stylesheet(source) -%}
+<link href="{{ url_for('static', filename='css/' ~ source) }}" rel="stylesheet">
+{%- endmacro -%}
+
+{%- macro img(source, title) -%}
+{% if title -%}
+<img title="{{ title }}" alt="{{ title }}"
+ src="{{ url_for('static', filename='img/' ~ source) }}">
+{% else -%}
+<img src="{{ url_for('static', filename='img/' ~ source) }}">
+{%- endif -%}
+{%- endmacro -%}
+
+{% macro img_url(source) -%}
+{{ url_for('static', filename='img/' ~ source) }}
+{% endmacro %}
+
+{% macro javascript(source) -%}
+<script src="{{ url_for('static', filename='js/' ~ source) }}"></script>
+{%- endmacro -%}

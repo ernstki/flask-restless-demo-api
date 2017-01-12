@@ -1,0 +1,48 @@
+{#-
+    Search form for existing organisms (results)
+-#}
+          <!-- search_form.html >>> -->
+          <form id="search-form" action="/search_results" method="post">
+            <div class="form-group">
+              <div class="input-group select2-bootstrap-append">
+                <select name="search-input" id="search-input"
+                 class="form-control" multiple="multiple" tabindex="-1"
+                 autofocus="autofocus" aria-label="...">
+                </select>
+
+                <span class="input-group-btn">
+                  <button id="search-submit" type="submit"
+                   class="btn btn-primary">
+                     <span class="glyphicon glyphicon-search"></span>
+                  </button>
+                </span>
+                                                                        
+                <!--div class="input-group-btn">
+                  <button type="button" class="btn btn-default">Action</button>
+                  <button type="button" class="btn btn-default dropdown-toggle"
+                   data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Run with defaults (default)</a></li>
+                    <li><a href="#">Modify parameters</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Other options...</a></li>
+                  </ul>
+                </div--> <!-- /.input-group-btn -->
+              </div> <!-- /.input-group -->
+            </div> <!-- /.form-group -->
+
+            <div class="form-group">
+              <textarea id="search-results" placeholder="Search results"
+               class="form-control" rows="5" disabled="disabled"
+               style="font-family:monospace"></textarea>
+            </div>
+            <div class="form-group text-right">
+              <button id="search-reset" class="btn btn-lg btn-default"
+               type="reset">Reset</button>
+            </div>
+          </form>
+          <!-- <<< search_form.html -->

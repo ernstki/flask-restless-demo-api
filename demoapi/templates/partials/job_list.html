@@ -1,0 +1,22 @@
+{#-
+    List of previously-run jobs
+-#}
+          <!-- job_list.html >>> -->
+          <ul class="entries">
+          {%- for job in job_list %}
+            <li>
+              <h3>
+                <a title="View complete job results"
+                 href="{{ url_for('results_for_job_id', id=job.id) }}">
+                  #{{ job.id }}: {{ job.name }}</a>
+              </h3>
+              {{ job.description }}
+              {% if narrow %}<br>{% else %}&mdash; submitted by {% endif %}
+              &lt;{{ job.notification_email }}&gt;
+              <abbr title="{{ job.created_at }}"><em>{{ job.created_at|humantime }}</em></abbr>
+            </li>
+          {%- else %}
+            <li><em>No jobs in the job history</em></li>
+          {%- endfor %}
+          </ul>
+          <!-- <<< job_list.html -->

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "macros.html" import stylesheet, javascript %}
+{% block head %}
+    {{ super() }}  
+    {{ stylesheet('select2.min.css') }}
+    {{ stylesheet('select2-bootstrap.min.css') }}
+{% endblock %}
+{% block content %}
+      <div class="row">
+
+        <!-- just a bit of spacing -->
+        <div class="col-md-3"></div>
+
+        <div class="col-md-6">
+          <h2>Search for existing organisms</h2>
+          {% include "partials/search_form.html" %}
+          {%- if session.logged_in %}
+          <h2>Start a new analysis</h2>
+          {% include "partials/input_form.html" %}
+          {%- endif %}
+        </div><!--/.col-md-6-->
+
+        <div class="col-md-3"></div>
+
+        </div>
+      </div> <!--/.row-->
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    {{ javascript('select2.js') }}
+
+    {#- set this here in global scope so the 'url_root' will get substituted #}
+    <script>$API_ROOT = '{{ request.url_root }}';</script>
+    {{ javascript('organism_search.js') }}
+{% endblock %}

@@ -24,8 +24,9 @@ import sys
 import re
 
 import click
-from flask import Flask, jsonify, redirect, request, url_for
+from flask import Flask, render_template, jsonify, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_bootstrap import Bootstrap
 from sqlalchemy import text
 import flask_restless
 
@@ -35,7 +36,10 @@ parentdir = os.path.dirname(__file__) + os.sep  + '..'
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
+Bootstrap(app)
+
 db = SQLAlchemy(app)
+
 
 class Organism(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -51,18 +55,35 @@ class Organism(db.Model):
         """
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
+
 # Create the Flask-Restless API manager and make 'organism' available
 # (from http://flask-restless.readthedocs.io/en/0.17.0/quickstart.html)
 manager = flask_restless.APIManager(app, flask_sqlalchemy_db=db)
 manager.create_api(Organism, methods=['GET'], #, 'POST', 'DELETE'],
                    url_prefix=app.config['URL_PREFIX'])
 
+# ----------------------------------------------------------------------------
+#               s i m p l e    t e s t    i n p u t    f o r m 
+# ----------------------------------------------------------------------------
 @app.route('/')
+def home():
+    """Return a simple search form with autocomplete"""
+    return render_template('home.html')
+
+@app.route('/about')
+def about():
+    """Return the about page"""
+    return render_template('about.html')
+
 @app.route('/api')
 @app.route(app.config['URL_PREFIX'])  # prob. smarter to use Flask blueprint
-def index():
+def api_root():
     """Redirect casual users to the API help page"""
     return redirect(url_for('help'))
+
+# ----------------------------------------------------------------------------
+#                    R E S T     A P I     e n d p o i n t s
+# ----------------------------------------------------------------------------
 
 @app.route(app.config['URL_PREFIX'] + '/help', methods = ['GET'])
 def help():
@@ -86,9 +107,15 @@ def autocomplete_organisms():
     cond = Organism.name.like("%{}%".format(request.args.get('q', '')))
     matches = [match.as_dict() for match in Organism.query.filter(cond)]
 
-    # Rename the 'name' field to 'text' to make select2.js happy
-    return jsonify(map(lambda x: {'id': x['id'], 'text': x['name']}, matches))
+    # Rename the 'name' field to 'text' to make select2.js happy; the
+    # list() is required because map() returns an iterator in Python 3.x.
+    # See: https://stackoverflow.com/a/1303354
+    return jsonify(list(map(lambda x: {'id': x['id'], 'text': x['name']},
+                            matches)))
 
+# ----------------------------------------------------------------------------
+#                c o m m a n d - l i n e    o p e r a t i o n s
+# ----------------------------------------------------------------------------
 @app.cli.command()
 def initdb():
     """Create 'organism' table if it doesn't exist"""
@@ -106,6 +133,7 @@ def initdb():
                               .format(orgname.replace('\n', '')))
 
     click.secho('done\n', fg='green')
+
 
 if __name__ == '__main__':
     # You could specify host= and port= params here, but they won't be used if

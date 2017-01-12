@@ -1,0 +1,16 @@
+/* See https://getbootstrap.com/components/#navbar-fixed-bottom */
+body {
+  padding-bottom: 70px;
+}
+
+.entries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.entries li {
+  margin: 0.8em 1.2em;
+}
+.entries li h2 {
+  margin-left: -1em;
+}

@@ -1,0 +1,55 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/utils.html" as utils %}
+{% from "macros.html" import nav_link, stylesheet with context %}
+{% block title %}Flask-Restless Demo API{% endblock %}
+{%- block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{ stylesheet('bootstrap.min.css') }}
+    {{ stylesheet('style.css') }}
+    {#- <link rel="shortcut icon" href="{{ img_url('favicon.png') }}"> #}
+{%- endblock %}
+
+{%- block body %}
+{#- See: https://pythonhosted.org/Flask-Bootstrap/faq.html#why-is-bootstrap-javascript-not-loading #}
+    {%- block navbar %}
+    <!-- navbar -->
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" title="Go to the start page"
+           href="{{ url_for('home') }}">Flask-Restless Demo API</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="{{ url_for('about') }}">about</a>
+          </li>
+        </ul>
+      </div> <!-- /.container -->
+    </nav> <!-- /.navbar -->
+    {%- endblock %}
+
+    {%- with messages = get_flashed_messages(with_categories=True) %}
+    {%- if messages %}
+      <div class="row">
+        <div class="col-md-12">
+          {{ utils.flashed_messages(messages, dismissible=True) }}
+        </div>
+      </div>
+    {%- endif %}
+    {%- endwith %}
+
+    <!-- content -->
+    <div class="container">
+      {%- block content %}{% endblock %}
+    </div>
+    <!-- /content -->
+
+    {% include 'partials/footer.html' %}
+
+    <!-- scripts -->
+{%- block scripts %}
+    {{- super() }}
+{%- endblock %}
+    <!-- /scripts -->
+{%- endblock %}
+

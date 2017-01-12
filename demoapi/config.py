@@ -1,5 +1,6 @@
-DEBUG       = True
-URL_PREFIX  = '/api/v1'
+DEBUG                    = True
+EXPLAIN_TEMPLATE_LOADING = True
+URL_PREFIX               = '/api/v1'
 
 #SQLALCHEMY_ECHO                = True
 SQLALCHEMY_TRACK_MODIFICATIONS = False
