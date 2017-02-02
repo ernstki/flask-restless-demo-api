@@ -10,8 +10,16 @@
 1. Clone this repository and generate a fresh virtual environment:
 
     ```
-    git clone git@github.uc.edu:ernstki/flask-restless-demo-api.git
-    virtualenv venv && source venv/bin/activate
+    # replace <githost> with either github.com or github.uc.edu
+    git clone git@<githost>:ernstki/flask-restless-demo-api.git
+    cd flask-restless-demo-api
+
+    # create a virtual environment, into which you'll install all the
+    # dependencies for this project
+    virtualenv venv
+
+    # on Windows, do 'venv\scripts\activate.cmd' (I think)
+    source venv/bin/activate
     ```
 
 2. Install necessary Python packages using `pip`:
@@ -24,13 +32,15 @@
    launch the Flask web application:
 
     ```
+    # on Windows, do 'set FLASK_APP=demoapi\demoapi.py' (note the backslash)
     export FLASK_APP=demoapi/demoapi.py
     flask initdb
     flask run  # defaults to http://127.0.0.1:5000
     ```
 
-    If you install [autoenv], you don't have to set `FLASK_APP`, it's done for
-    you automatically when you enter the directory.
+    If you install [autoenv] on a Unix system (OS X / macOS is Unix), you don't
+    have to set `FLASK_APP`, it's done for you automatically when you enter the
+    directory.
 
     If you're running the Flask application within a VirtualBox VM, you'll want
     to be sure that the app runs on 0.0.0.0, so that the VirtualBox port
