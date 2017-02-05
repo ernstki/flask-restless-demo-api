@@ -1,6 +1,7 @@
 # Temp files and other detritus
 *~
 .*sw?
+*.pid
 
 # Don't need to check in the SQLite database
 organism.db

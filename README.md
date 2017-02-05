@@ -75,5 +75,26 @@ the default values. Here's a sample invocation for SQLite:
 sqlite3 organism.db < organism_table_sqlite3.sql
 ```
 
+## Credits
+
+Based on the Flask-Restless Quickstart and distributed under the same terms
+([BSD 3-clause license](LICENSE.txt)).
+
+Incorporates [Glyphicons][] and [Bootstrap][] CSS / JS source files, both under the
+terms of the MIT license ([ref1][glyphlicense], [ref2][bslicense]).
+
+Employs the [Select2][] JavaScript library for the auto-completing multi-select
+control, also under MIT.
+
+Thanks to Andrey Lando for helping jog my brain about some SQL query stuff that
+one time. Credit to Tchibo [Black 'N White][tchibo] for supporting the initial
+iteration of this project, caffeine-wise.
+
 [autoenv]: https://github.com/kennethreitz/autoenv
 [postman]: https://www.getpostman.com/apps
+[glyphicons]: https://glyphicons.com/
+[bootstrap]: https://getbootstrap.com/
+[glyphlicense]: https://glyphicons.com/license/
+[bslicense]: https://github.com/twbs/bootstrap/blob/master/LICENSE
+[select2]: https://select2.github.io/
+[tchibo]: http://www.tchiboblackandwhite.ro/
