@@ -4,14 +4,22 @@
 
 * Python 2.7.x or 3.5.x (later is probably OK)
 * virtualenv
+* pip
+
+These should part of most standard Python kits. Try typing `virtualenv --help`
+or `pip --help` at the command line to see if they're already installed on your
+system.
 
 ## Installation
 
-1. Clone this repository and generate a fresh virtual environment:
+1. Clone (or download) this repository and generate a fresh virtual
+   environment:
 
     ```
     # replace <githost> with either github.com or github.uc.edu
     git clone git@<githost>:ernstki/flask-restless-demo-api.git
+
+    # change into the repository's base directory
     cd flask-restless-demo-api
 
     # create a virtual environment, into which you'll install all the
@@ -63,7 +71,7 @@ and includes two example queries.
 ### Using MySQL instead of SQLite
 
 Out of the box, this Flask app is set up to use a SQLite3 database in the
-named `organism.db` in the current working directory, but with slight
+named `organism.db` in the same directory as the Flask app, but with slight
 modifications, you can use a MySQL database instead. (Check out the comments
 in `config.py`.)
 
