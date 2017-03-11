@@ -59,6 +59,20 @@ system.
     flask run --host=0.0.0.0  # optionally: --port=5000
     ```
 
+## Command line interface
+
+Several `flask` subcommands for operating on the database are included,
+courtesy of the [Click][] library, also by the author of Flask.
+
+They're all documented with `flask --help` (or `flask <command> --help`), and
+hopefully adequately commented in the source code so you could also add your
+own.
+
+![Demonstration of Click command line options](click_demo.gif)
+
+For detailed information about argument parsing with Click, see
+[the "Options" section][clickopts] of the official docs.
+
 ## Other tips
 
 
@@ -99,6 +113,8 @@ one time. Credit to Tchibo [Black 'N White][tchibo] for supporting the initial
 iteration of this project, caffeine-wise.
 
 [autoenv]: https://github.com/kennethreitz/autoenv
+[click]: http://click.pocoo.org/
+[clickopts]: http://click.pocoo.org/5/options/
 [postman]: https://www.getpostman.com/apps
 [glyphicons]: https://glyphicons.com/
 [bootstrap]: https://getbootstrap.com/
