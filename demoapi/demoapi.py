@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 ###########################################################################
 ##
-##  REST API for querying the 'organisms' MySQL table, intended for
-##  use with the Select2 JavaScript typeahead forms library
+##  Simple Flask-Restless-based REST API and example search form
 ##
 ##  Author:  Kevin Ernst <ernstki@mail.uc.edu>
 ##  Date:    27 Juli 2016
-##  
+##
 ##  References:
 ##    - http://docs.sqlalchemy.org/en/latest/orm/query.html
 ##        #sqlalchemy.orm.query.Query.filter
@@ -32,6 +31,9 @@ import flask_restless
 
 basedir = os.path.dirname(__file__)
 parentdir = os.path.dirname(__file__) + os.sep  + '..'
+
+# the default CSV file to load when you do 'flask initdb'
+csvfile = parentdir + os.sep + 'organism_table.csv'
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -63,17 +65,20 @@ manager.create_api(Organism, methods=['GET'], #, 'POST', 'DELETE'],
                    url_prefix=app.config['URL_PREFIX'])
 
 # ----------------------------------------------------------------------------
-#               s i m p l e    t e s t    i n p u t    f o r m 
+#               s i m p l e    t e s t    i n p u t    f o r m
 # ----------------------------------------------------------------------------
+
 @app.route('/')
 def home():
     """Return a simple search form with autocomplete"""
     return render_template('home.html')
 
+
 @app.route('/about')
 def about():
     """Return the about page"""
     return render_template('about.html')
+
 
 @app.route('/api')
 @app.route(app.config['URL_PREFIX'])  # prob. smarter to use Flask blueprint
@@ -94,12 +99,14 @@ def help():
             func_list[rule.rule] = app.view_functions[rule.endpoint].__doc__
     return jsonify(func_list)
 
+
 @app.route(app.config['URL_PREFIX'] + '/organism/search')
 def search_organisms():
     """Substring match on organisms using the 'q=' query string parameter"""
     # Return anything with a substring match on the 'name' field
     cond = Organism.name.like("%{}%".format(request.args.get('q', '')))
     return jsonify([match.as_dict() for match in Organism.query.filter(cond)])
+
 
 @app.route(app.config['URL_PREFIX'] + '/organism/autocomplete')
 def autocomplete_organisms():
@@ -116,9 +123,13 @@ def autocomplete_organisms():
 # ----------------------------------------------------------------------------
 #                c o m m a n d - l i n e    o p e r a t i o n s
 # ----------------------------------------------------------------------------
+# Refer to http://click.pocoo.org/5/options/ for help on option parsing
+
 @app.cli.command()
-def initdb():
-    """Create 'organism' table if it doesn't exist"""
+@click.option('csvfile', '--from-file', type=click.File(), default=csvfile,
+              help='Load data from CSV file.')
+def initdb(csvfile):
+    """Create 'organism' table if it doesn't exist."""
     click.secho("Creating database tables for '{}'... "
                 .format(app.config['SQLALCHEMY_DATABASE_URI']), fg='yellow',
                 nl=False)
@@ -127,12 +138,37 @@ def initdb():
     db.drop_all()
     db.create_all()
 
-    with open(parentdir + os.sep + 'organism_table.csv', 'r') as organisms:
-        for orgname in organisms.readlines():
-            db.engine.execute("INSERT INTO organism (name) VALUES('{}')"
-                              .format(orgname.replace('\n', '')))
+    for line in csvfile.readlines():
+        db.engine.execute(
+            "INSERT INTO organism (name) VALUES('%s')" % line.strip()
+        )
 
     click.secho('done\n', fg='green')
+
+
+@app.cli.command()
+@click.option('--with-ids', is_flag=True, default=False,
+              help='Include unique IDs with each record.')
+@click.option('--as-csv', is_flag=True, default=False,
+              help='Dump in comma-separated value format.')
+def dumpdb(with_ids, as_csv):
+    """Dump contents of database to the terminal."""
+    sep = '\t'
+
+    if as_csv:
+        with_ids = True
+        sep = ','
+        cols = [col.name for col in Organism.__table__.columns]
+
+        click.echo(','.join(cols))
+
+    for rec in Organism.query.all():
+        cols = [rec.name]
+
+        if with_ids:
+            cols.insert(0, str(rec.id))
+
+        click.echo(sep.join(cols))
 
 
 if __name__ == '__main__':
@@ -146,4 +182,3 @@ if __name__ == '__main__':
                 err=True)
     click.secho('    flask run [--host=X.X.X.X] [--port=YYYY]\n', bold=True,
                 err=True)
-
