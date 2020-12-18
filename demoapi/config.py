@@ -13,9 +13,9 @@ SQLALCHEMY_DATABASE_URI        = 'sqlite:///organism.db'
 #
 #DB_HOST     = 'localhost'
 #DB_PORT     = 3306
-#DB_DATABASE = 'bioreactor'
-#DB_USER     = 'bioreactor'
-#DB_PASSWORD = 'BioreactorIsPartOfABalancedBreakfast'
+#DB_DATABASE = 'dbname'
+#DB_USER     = 'dbuser'
+#DB_PASSWORD = 'GoodPasswordsArePartOfABalancedBreakfast'
 #SQLALCHEMY_DATABASE_URI        = \
 #    "mysql://{user}:{passwd}@{host}:{port}/{db}".format(
 #        user=DB_USER, passwd=DB_PASSWORD, host=DB_HOST, port=DB_PORT,
