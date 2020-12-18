@@ -30,13 +30,13 @@ from sqlalchemy import text
 import flask_restless
 
 basedir = os.path.dirname(__file__)
-parentdir = os.path.dirname(__file__) + os.sep  + '..'
+parentdir = os.path.join(os.path.dirname(__file__), '..')
 
 # the default CSV file to load when you do 'flask initdb'
-csvfile = parentdir + os.sep + 'organism_table.csv'
+csvfile = os.path.join(parentdir, 'organism_table.csv')
 
 app = Flask(__name__)
-app.config.from_pyfile('config.py')
+app.config.from_pyfile('config.py')  # same directory as __file__ inferred?
 
 Bootstrap(app)
 
@@ -62,7 +62,7 @@ class Organism(db.Model):
 # (from http://flask-restless.readthedocs.io/en/0.17.0/quickstart.html)
 manager = flask_restless.APIManager(app, flask_sqlalchemy_db=db)
 manager.create_api(Organism, methods=['GET'], #, 'POST', 'DELETE'],
-                   url_prefix=app.config['URL_PREFIX'])
+                   url_prefix=app.config['API_PREFIX'])
 
 # ----------------------------------------------------------------------------
 #               s i m p l e    t e s t    i n p u t    f o r m
@@ -81,36 +81,46 @@ def about():
 
 
 @app.route('/api')
-@app.route(app.config['URL_PREFIX'])  # prob. smarter to use Flask blueprint
+@app.route(app.config['API_PREFIX'])  # prob. smarter to use Flask blueprint
 def api_root():
-    """Redirect casual users to the API help page"""
+    """Redirect casual users to the API help page--you're lookin' at it!"""
     return redirect(url_for('help'))
 
 # ----------------------------------------------------------------------------
 #                    R E S T     A P I     e n d p o i n t s
 # ----------------------------------------------------------------------------
 
-@app.route(app.config['URL_PREFIX'] + '/help', methods = ['GET'])
+# helper function to reformat docstrings for API help output
+def docstring_to_help(endpoint):
+    lines = []
+    for l in [l.strip() for l in endpoint.__doc__.split("\n")]:
+        if l:  # if the line had any content besides whitespace
+            lines += [l.strip()]
+    return ' '.join(lines)
+
+
+@app.route(app.config['API_PREFIX'] + '/help', methods = ['GET'])
 def help():
-    """Print available functions."""
+    """Return API endpoint documentation as a JSON structure."""
     func_list = {}
     for rule in app.url_map.iter_rules():
-        if rule.endpoint != 'static':
-            func_list[rule.rule] = app.view_functions[rule.endpoint].__doc__
+        if rule.rule.startswith(app.config['API_PREFIX']):
+            func_list[rule.rule] = \
+                    docstring_to_help(app.view_functions[rule.endpoint])
     return jsonify(func_list)
 
 
-@app.route(app.config['URL_PREFIX'] + '/organism/search')
+@app.route(app.config['API_PREFIX'] + '/organism/search')
 def search_organisms():
-    """Substring match on organisms using the 'q=' query string parameter"""
+    """Substring match on organisms using the 'q=' query string parameter."""
     # Return anything with a substring match on the 'name' field
     cond = Organism.name.like("%{}%".format(request.args.get('q', '')))
     return jsonify([match.as_dict() for match in Organism.query.filter(cond)])
 
 
-@app.route(app.config['URL_PREFIX'] + '/organism/autocomplete')
+@app.route(app.config['API_PREFIX'] + '/organism/autocomplete')
 def autocomplete_organisms():
-    """Search returning correct fields for autocomplete with select2.js"""
+    """Search returning correct structure for autocomplete with select2.js."""
     cond = Organism.name.like("%{}%".format(request.args.get('q', '')))
     matches = [match.as_dict() for match in Organism.query.filter(cond)]
 

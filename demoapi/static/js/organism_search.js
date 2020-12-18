@@ -43,7 +43,7 @@ $(function() {
       cache: true,
     },
     theme: 'bootstrap',
-    placeholder: "Organism or name of clade (e.g., 'mus musculus')",
+    placeholder: "Organism name (e.g., 'drosophila')",
     placeholderOption: 'first',
     //debug: true
   });

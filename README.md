@@ -2,33 +2,37 @@
 
 ## Requirements
 
-* Python 2.7.x or 3.5.x (later is probably OK)
-* virtualenv
-* pip
-
-These should part of most standard Python kits. Try typing `virtualenv --help`
-or `pip --help` at the command line to see if they're already installed on your
-system.
+* Python 3.x (although 2.7.x + pip + virtualenv will probably still work)
+* an internet connection to install the necessary Python libraries
 
 ## Installation
+
+Instructions below assume a Bourne-like shell, like Bash, with the necessary
+changes for Windows' Command Prompt noted. Make the appropriate changes if you
+use some other shell.
 
 1. Clone (or download) this repository and generate a fresh virtual
    environment:
 
     ```
-    # replace <githost> with either github.com or github.uc.edu
-    git clone git@<githost>:ernstki/flask-restless-demo-api.git
+    # clone this repository
+    git clone https://github.com/ernstki/flask-restless-demo-api.git
 
     # change into the repository's base directory
     cd flask-restless-demo-api
 
     # create a virtual environment, into which you'll install all the
-    # dependencies for this project
-    virtualenv venv
+    # dependencies for this project; Python 2.x, use 'virtualenv' instead
+    python3 -m venv venv
 
-    # on Windows, do 'venv\scripts\activate.cmd' (I think)
+    # activate the virtual environment--modifies PATH variable for you
+    # (in Windows Command Prompt, do 'venv\scripts\activate.cmd', I think)
     source venv/bin/activate
     ```
+
+    If you install [autoenv] on a Unix system (OS X / macOS is Unix), you don't
+    have to activate the virtualenv; it's done for you automatically when you
+    enter the directory.
 
 2. Install necessary Python packages using `pip`:
 
@@ -40,15 +44,16 @@ system.
    launch the Flask web application:
 
     ```
-    # on Windows, do 'set FLASK_APP=demoapi\demoapi.py' (note the backslash)
+    # for Windows Command Prompt, do 'set FLASK_APP=demoapi\demoapi.py'
     export FLASK_APP=demoapi/demoapi.py
+    export FLASK_DEBUG=1  # for template auto-reloading
     flask initdb
-    flask run  # defaults to http://127.0.0.1:5000
+    flask run             # defaults to http://127.0.0.1:5000
     ```
 
-    If you install [autoenv] on a Unix system (OS X / macOS is Unix), you don't
-    have to set `FLASK_APP`, it's done for you automatically when you enter the
-    directory.
+    If you install [autoenv] on a Unix system (that includes macOS), you don't
+    have to set `FLASK_APP` or `FLASK_DEBUG`; that's done for you automatically
+    when you enter the directory.
 
     If you're running the Flask application within a VirtualBox VM, you'll want
     to be sure that the app runs on 0.0.0.0, so that the VirtualBox port
@@ -74,7 +79,6 @@ For detailed information about argument parsing with Click, see
 [the "Options" section][clickopts] of the official docs.
 
 ## Other tips
-
 
 ### Testing the API with [Postman][]
 

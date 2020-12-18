@@ -1,6 +1,8 @@
-DEBUG                    = True
+# you have to set DEBUG as an environment variable; refer to
+# https://flask.palletsprojects.com/en/1.1.x/config/#environment-and-debug-features
+#DEBUG                    = True
 EXPLAIN_TEMPLATE_LOADING = True
-URL_PREFIX               = '/api/v1'
+API_PREFIX               = '/api/v1'
 
 #SQLALCHEMY_ECHO                = True
 SQLALCHEMY_TRACK_MODIFICATIONS = False
